@@ -8,8 +8,8 @@ Webview is a small library which uses the Chromium browser to render HTML files 
 
 ```
 void WindowSizeInit(JWindowSize *sz, int width, int height);
-  int WindowSettingsInit(JWindowSettings *settings, int addressbar, int fullscreen, int incognito, int kioskmode);
-  int DisplayContent(JDisplayContent *content, int Ctype, char* buffer);
+int WindowSettingsInit(JWindowSettings *settings, int addressbar, int fullscreen, int incognito, int kioskmode);
+int DisplayContent(JDisplayContent *content, int Ctype, char* buffer);
 void CreateContext(JWindowSettings *settings, JDisplayContent *content, bool LOG);
 ```
 
