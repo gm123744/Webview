@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "JEB.h"
+#include "webview.h"
 
 #include <unistd.h>
 #include <fcntl.h>
