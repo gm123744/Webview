@@ -11,6 +11,8 @@ void CreateContext(JWindowSettings *settings, JDisplayContent *content, bool LOG
 ## Examples
 
 '''Render URL
+
+
 #include <webview.h>
 #include <stdio.h>
 
@@ -25,9 +27,13 @@ int main() {
     
     return 0;
 }
+
+
 '''
 
 '''Render html
+
+
 #include <webview.h>
 #include <stdio.h>
 
@@ -42,6 +48,8 @@ int main() {
     
     return 0;
 }
+
+
 '''
 ## Compiling
 
