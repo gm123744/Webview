@@ -47,7 +47,6 @@ int main() {
      WindowSettingsInit(&settings, NO_ADDRESSBAR, NO_FULLSCREEN, INCOGNITO, NO_KIOSKMODE); // available browser modes
      WindowSettingsInit(&settings, NO_ADDRESSBAR, NO_FULLSCREEN, INCOGNITO, NO_KIOSKMODE); // available browser modes (green = enabled)
      DisplayContent(&content, URL, "https://www.youtube.com");
-     DisplayContent(&content, URL, "https://www.youtube.com"); // red = URL to render
     CreateContext(&settings, &content, NO_WEBVIEW_LOG); // Create the browser window and display content
 
     return 0;
@@ -70,7 +69,6 @@ int main() {
      WindowSettingsInit(&settings, NO_ADDRESSBAR, NO_FULLSCREEN, INCOGNITO, NO_KIOSKMODE);
      WindowSettingsInit(&settings, NO_ADDRESSBAR, NO_FULLSCREEN, INCOGNITO, NO_KIOSKMODE); // green = enabled, red = disabled
      DisplayContent(&content, DOCUMENT, "path/to/local/file.html");
-     DisplayContent(&content, DOCUMENT, "path/to/local/file.html"); // local HTML file
     CreateContext(&settings, &content, NO_WEBVIEW_LOG);
 
     return 0;
