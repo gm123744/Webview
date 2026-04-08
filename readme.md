@@ -1,4 +1,4 @@
-# Webview Tutorial
+#   Jeb Webview Tutorial
 
 Webview is a small library which uses the Chromium browser to render HTML files and URL files with minimal syntax.
 
