@@ -86,3 +86,9 @@ int main() {
 ```bash
 gcc target.c -lwebview -o target
 ```
+
+---
+
+## Versions
+- 1.0 Release
+- 2.0 New API more safety & control
