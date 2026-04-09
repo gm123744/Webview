@@ -7,10 +7,9 @@ jebs Webview is a small launcher which uses the Chromium browser to render HTML 
 ## Webview Functions
 
 ```
-void WindowSizeInit(JWindowSize *sz, int width, int height);
-int WindowSettingsInit(JWindowSettings *settings, int addressbar, int fullscreen, int incognito, int kioskmode);
-int DisplayContent(JDisplayContent *content, int Ctype, char* buffer);
-void CreateContext(JWindowSettings *settings, JDisplayContent *content, bool LOG);
+int CreateContext(JWindowSettings *settings, JDisplayContent *content, int ChromiumLogs ,bool ErrorS);
+void DestroyContext(int pid,int debug, int signal);
+void JwebviewTerminate(int pid);
 ```
 
 ---
@@ -18,15 +17,22 @@ void CreateContext(JWindowSettings *settings, JDisplayContent *content, bool LOG
 ## Webview Window Flags
 
 ```
-  ADDRESSBAR = 1,
-  FULLSCREEN = 1,
-  INCOGNITO = 1,
-  KIOSKMODE = 1,
-  NO_ADDRESSBAR = 0,
-  NO_FULLSCREEN = 0,
-  NO_INCOGNITO = 0,
-  NO_KIOSKMODE = 0,
-  NO_JEB_LOG = false
+    ADDRESSBAR
+    FULLSCREEN
+    INCOGNITO
+    KIOSKMODE
+    ENABLE_GPU
+    CHROMIUM_LOGS
+    DEBUG
+    JEB_LOG
+    NO_ADDRESSBAR
+    NO_FULLSCREEN
+    NO_INCOGNITO
+    NO_KIOSKMODE
+    DISABLE_GPU
+    NO_CHROMIUM_LOGS 
+    NO_DEBUG
+    NO_WEBVIEW_LOG
 ```
 
 ---
@@ -40,14 +46,23 @@ void CreateContext(JWindowSettings *settings, JDisplayContent *content, bool LOG
 #include <stdio.h>
 
 int main() {
-    JWindowSettings settings;
-    JDisplayContent content;
+    JWindowSettings settings = {
+        .AddressBar = NO_ADDRESSBAR,
+        .FullScreen = NO_FULLSCREEN,
+        .Incognito = INCOGNITO,
+        .KioskMode = NO_KIOSKMODE,
+        .DisableGPU = ENABLE_GPU,
+        .Zoom = 100,
+        .WindowSize = {800,600}
+    };
+    JDisplayContent content = {
+        .Ctype = URL,
+        .buffer = "https://vscode.dev/"
+    };
 
-    WindowSizeInit(&settings.WindowSize, 800, 600); // set window size for Chromium
-     WindowSettingsInit(&settings, NO_ADDRESSBAR, NO_FULLSCREEN, INCOGNITO, NO_KIOSKMODE); // available browser modes
-     DisplayContent(&content, URL, "https://www.youtube.com");
-    CreateContext(&settings, &content, NO_WEBVIEW_LOG); // Create the browser window and display content
+    int pid = CreateContext(&settings,&content, NO_CHROMIUM_LOGS ,NO_WEBVIEW_LOG);
 
+    JwebviewTerminate(pid);
     return 0;
 }
 ```
@@ -57,18 +72,27 @@ int main() {
 ### Render HTML
 
 ```
-#include <webview.h>
+#include "webview.h"
 #include <stdio.h>
 
 int main() {
-    JWindowSettings settings;
-    JDisplayContent content;
+    JWindowSettings settings = {
+        .AddressBar = NO_ADDRESSBAR,
+        .FullScreen = NO_FULLSCREEN,
+        .Incognito = INCOGNITO,
+        .KioskMode = NO_KIOSKMODE,
+        .DisableGPU = ENABLE_GPU,
+        .Zoom = 100,
+        .WindowSize = {800,600}
+    };
+    JDisplayContent content = {
+        .Ctype = DOCUMENT,
+        .buffer = "target.html"
+    };
 
-    WindowSizeInit(&settings.WindowSize, 800, 600);
-     WindowSettingsInit(&settings, NO_ADDRESSBAR, NO_FULLSCREEN, INCOGNITO, NO_KIOSKMODE);
-     DisplayContent(&content, DOCUMENT, "path/to/local/file.html");
-    CreateContext(&settings, &content, NO_WEBVIEW_LOG);
+    int pid = CreateContext(&settings,&content, NO_CHROMIUM_LOGS ,NO_WEBVIEW_LOG);
 
+    JwebviewTerminate(pid);
     return 0;
 }
 ```
