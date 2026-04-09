@@ -1,6 +1,6 @@
 #   Jeb Webview Tutorial
 
-Webview is a small library which uses the Chromium browser to render HTML files and URL files with minimal syntax.
+jebs Webview is a small launcher which uses the Chromium browser to render HTML files and URL files with minimal syntax.
 
 ---
 
