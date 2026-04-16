@@ -10,9 +10,7 @@
 #include <signal.h>
 #include <linux/limits.h>
 
-//==================== VERSION 2.0 ====================//
 #if defined(JVERSION_2_0)
-
 static void WriteLaunchError(bool ErrorS, const char *msg) {
     if (ErrorS == 1) {
         write(2, msg, strlen(msg));
@@ -139,12 +137,28 @@ int CreateContext(JWindowSettings *settings, JDisplayContent *content, int Chrom
     return pid;
 }
 
+void DestroyContext(int pid, int signal) {
+    if (pid <= 0) return;
+    
+    int kill_signal;
+    switch(signal) {
+        case JSIGINT:  kill_signal = SIGINT;  break;
+        case JSIGKILL: kill_signal = SIGKILL; break;
+        case JSIGTERM: kill_signal = SIGTERM; break;
+        default:       kill_signal = SIGTERM; break;
+    }
+    
+    kill(pid, kill_signal);
+}
+
+void JwebviewTerminate(int pid) {
+    int status;
+    waitpid(pid, &status, 0);
+}
+
 #endif
 
-//==================== VERSION 2.5 ====================//
 #if defined(JVERSION_2_5)
-
-
 int CreateContext(JWindowSettings *settings, JDisplayContent *content) {
     if (settings == NULL || content == NULL) {
         write(2, "CreateContext got NULL args!\n", 30);
