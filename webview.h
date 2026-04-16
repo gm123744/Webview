@@ -4,12 +4,12 @@
 #include <stdbool.h>
 #include <limits.h>
 
-//====================VERSION 2.0====================//
-#if defined(JVERSION_2_0)
-
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+#if defined(JVERSION_2_0)
 
 #define URL 300
 #define DOCUMENT 900
@@ -36,27 +36,28 @@ typedef struct {
 } JDisplayContent;
 
 typedef enum {
+    RELOADWINDOW = 0,
+    BACK = 1,
+    FORWARD = 2,
+    CLOSETAB = 3
+} JSignal;
+
+typedef enum {
     JSIGINT = 2,
     JSIGKILL = 9,
     JSIGTERM = 15
 } JSysSignal;
 
 int CreateContext(JWindowSettings *settings, JDisplayContent *content, int ChromiumLogs, bool ErrorS);
-void DestroyContext(int pid, int debug, int signal);
+void DestroyContext(int pid, int signal);
 void JwebviewTerminate(int pid);
 
-#ifdef __cplusplus
-}
 #endif
 
-#endif
 
-//==================== VERSION 2.5 ====================//
+// VERSION 2.5 
+
 #if defined(JVERSION_2_5)
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #define URL 300
 #define DOCUMENT 900
@@ -69,8 +70,7 @@ typedef struct {
 typedef struct {
     JWindowSize WindowSize;
     int Zoom;
-    
-    //flags
+
     unsigned int AddressBar;
     unsigned int FullScreen;
     unsigned int Incognito;
@@ -107,10 +107,11 @@ int CreateContext(JWindowSettings *settings, JDisplayContent *content);
 void DestroyContext(int pid, int signal);
 void JwebviewTerminate(int pid);
 
+#endif // JVERSION_2_5
+
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif
-
-#endif
+#endif // WEBVIEW_H
