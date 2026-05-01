@@ -11,10 +11,17 @@ jebs Webview is a small launcher which uses the Chromium browser to render HTML 
 int CreateContext(JWindowSettings *settings, JDisplayContent *content, int ChromiumLogs ,bool ErrorS);
 void DestroyContext(int pid, int signal);
 void JwebviewTerminate(int pid);
+
 //Version 2.5
 int CreateContext(JWindowSettings *settings, JDisplayContent *content);
 void DestroyContext(int pid, int signal);
 void JwebviewTerminate(int pid);
+
+//Version 3.0
+JWindow* JCreateContext(JWindowSize* WindowSize,JWindowSettings* WindowSettings,JDisplayContent* DisplayContent);
+void JDestroyContext(JWindow* win, int signal);
+void JWebviewTerminate(JWindow* win);
+void JDebug(JWindow* win);
 ```
 
 ---
@@ -22,22 +29,20 @@ void JwebviewTerminate(int pid);
 ## Webview Window Flags
 
 ```
-    ADDRESSBAR
-    FULLSCREEN
-    INCOGNITO
-    KIOSKMODE
-    ENABLE_GPU
-    CHROMIUM_LOGS
-    DEBUG
-    JEB_LOG
-    NO_ADDRESSBAR
-    NO_FULLSCREEN
-    NO_INCOGNITO
-    NO_KIOSKMODE
-    DISABLE_GPU
-    NO_CHROMIUM_LOGS 
-    NO_DEBUG
-    NO_WEBVIEW_LOG
+    bool Zoom;
+    bool AddressBar;
+    bool FullScreen;
+    bool Incognito;
+    bool KioskMode;
+    bool GPU;
+    bool ChromiumLogs;
+    bool JWLOG;
+    bool DisableGoogleFeatures;
+    bool ForceDarkMode;
+    bool HideScrollBars;
+    bool DisableDevTools;
+    bool SandBoxed;
+    bool StrictChecking;
 ```
 
 ---
@@ -47,21 +52,25 @@ void JwebviewTerminate(int pid);
 ### Render URL
 
 ```
-#include "webview.h" 
+#include "webview.h"
 
-int main(void) { 
+int main(void) {
+    JWindowSize size = {800,600};
     JWindowSettings settings = { 
-        .WindowSize = {800,600}, 
         .Zoom = 100, 
-        .AddressBar = 1 
+        .AddressBar = true,
+        .ForceDarkMode = true,
+        .Incognito = true,
+        .SandBoxed =true
     }; 
+
     JDisplayContent content = { 
         .Ctype = URL, 
-        .buffer = "https://www.youtube.com" 
-    }; 
-    int pid = CreateContext(&settings,&content); 
-    JwebviewTerminate(pid); 
-    return 0; 
+        .buffer = "https://www.google.com" 
+    };
+
+    JWindow* win = JCreateContext(&size, &settings, &content);
+    JWebviewTerminate(win);
 }
 ```
 
@@ -70,21 +79,25 @@ int main(void) {
 ### Render HTML
 
 ```
-#include "webview.h" 
+#include "webview.h"
 
-int main(void) { 
+int main(void) {
+    JWindowSize size = {800,600};
     JWindowSettings settings = { 
-        .WindowSize = {800,600}, 
         .Zoom = 100, 
-        .AddressBar = 1 
+        .AddressBar = true,
+        .ForceDarkMode = true,
+        .Incognito = true,
+        .SandBoxed =true
     }; 
+
     JDisplayContent content = { 
         .Ctype = DOCUMENT, 
-        .buffer = "test.html" 
-    }; 
-    int pid = CreateContext(&settings,&content); 
-    JwebviewTerminate(pid); 
-    return 0; 
+        .buffer = "idk.html" 
+    };
+
+    JWindow* win = JCreateContext(&size, &settings, &content);
+    JWebviewTerminate(win);
 }
 ```
 
@@ -99,7 +112,7 @@ int main(void) {
 ## Compiling
 
 ```bash
-gcc -DJVERSION_2_X target.c -lwebview -o target
+gcc target.c -lwebview -o target
 ```
 
 ---
@@ -108,3 +121,4 @@ gcc -DJVERSION_2_X target.c -lwebview -o target
 - 1.0 Release
 - 2.0 New API more safety & control
 - 2.5 more minimalism to CreateContext + new flags introduced
+- 3.0 fixed some name inconsistencies + introduced objects + #define works
