@@ -29,7 +29,7 @@ void JDebug(JWindow* win);
 ## Webview Window Flags
 
 ```
-    bool Zoom;
+    int Zoom;
     bool AddressBar;
     bool FullScreen;
     bool Incognito;
@@ -42,7 +42,6 @@ void JDebug(JWindow* win);
     bool HideScrollBars;
     bool DisableDevTools;
     bool SandBoxed;
-    bool StrictChecking;
 ```
 
 ---
