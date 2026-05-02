@@ -16,8 +16,6 @@ JWindow* JCreateContext(JWindowSize* WindowSize,JWindowSettings* WindowSettings,
     if (win != NULL) {
         char* browser_path = NULL;
         bool flatpak = false;
-        char app_arg[1024];
-        char document_arg[1024];
 
         char* browser_paths[] = {
             "/usr/bin/chromium",
@@ -152,7 +150,6 @@ JWindow* JCreateContext(JWindowSize* WindowSize,JWindowSettings* WindowSettings,
             execvp(browser_path, argv);
             _exit(1);
         }
-        strcpy(win->app_arg, app_arg);
         strcpy(win->browser_path, browser_path);
         win->pid = win_pid;
         win->height = WindowSize->height;
